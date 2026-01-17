@@ -1,0 +1,49 @@
+module top (
+    clk: input  clock,
+    rst: input  reset,
+    rxd: input  logic,
+    txd: output logic,
+) {
+    var received_word   : logic<8>;
+    var we              : logic   ;
+    var word_to_transmit: logic<8>;
+    var re              : logic   ;
+    var wready          : logic   ;
+    var rvalid          : logic   ;
+
+    let full : logic = !wready;
+    let empty: logic = !rvalid;
+
+    inst rx: receiver (
+        clk                ,
+        rst                ,
+        din : rxd          ,
+        dout: received_word,
+        full               ,
+        we                 ,
+    );
+
+    inst fb: fifo #(
+        DATA_TYPE: logic<8>,
+        WIDTH    : 4       ,
+    ) (
+        clk                     ,
+        rst                     ,
+        flush : 0               ,
+        wready                  ,
+        wvalid: we              ,
+        wdata : received_word   ,
+        rready: re              ,
+        rvalid: rvalid          ,
+        rdata : word_to_transmit,
+    );
+
+    inst tx: transmitter (
+        clk                    ,
+        rst                    ,
+        din  : word_to_transmit,
+        empty                  ,
+        re                     ,
+        dout : txd             ,
+    );
+}
