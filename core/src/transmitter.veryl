@@ -19,10 +19,10 @@ module transmitter #(
         TransmitBits,
     }
 
-    var state            : State            ;
-    var data             : logic<WORD_WIDTH>;
-    var clock_counts     : logic<32>        ;
-    var full_clock_counts: logic            ;
+    var state            : State                ;
+    var data             : logic<WORD_WIDTH + 2>;
+    var clock_counts     : logic<32>            ;
+    var full_clock_counts: logic                ;
 
     assign re   = (state == State::AssertReadEnable);
     assign dout = if state == State::TransmitBits ? data[0] : 1;
