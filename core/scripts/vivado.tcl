@@ -12,7 +12,7 @@ create_project $project_name $project_dir -part $part -force
 read_verilog -sv [ glob target/*.sv ]
 
 # Add constraints file for Basys3
-add_files -fileset constrs_1 [ glob src/constraints/*.xdc ]
+add_files -fileset constrs_1 [ glob constraints/*.xdc ]
 
 # Set the top-level module
 set_property top $top_module [current_fileset]
