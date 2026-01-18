@@ -19,7 +19,7 @@ module receiver #(
     }
 
     var state            : State                ;
-    var data             : logic<WORD_WIDTH + 1>;
+    var data             : logic<WORD_WIDTH + 2>;
     var clock_counts     : logic<32>            ;
     var half_clock_counts: logic                ;
     var full_clock_counts: logic                ;
